@@ -1,21 +1,103 @@
+* {
+  image-rendering: pixelated;
+  font-family: base;
+  font-size: 5px;
+  margin: 0;
+  box-shadow: 0 0;
+  border-style: none;
+  text-shadow: none;
+}
+body {
+  overflow: hidden;
+  align-content: center;
+  justify-content: center;
+  background-color: black;
+  margin: 0;
+}
+#screen {
+  position: absolute;
+  margin: 0 0 0 0;
+  font-size-adjust: none;
+  font-size: 5px;
+  box-shadow: 0 0;
 
+  user-select: none;
+}
+#screen > * {
+  min-width: 100%;
+  min-height: 100%;
+  position: absolute;
+  z-index: 30000 !important;
+}
+@font-face {
+  font-family: base;
+  src: url('./font.ttf');
+  perspective: 1px;
+  text-shadow: 0 0;
+  box-shadow: 0 0;
+}
 
-*{
-    overflow: hidden;
+code {
+  font-family: base;
+  z-index: 100 !important;
 }
-body{
-    align-content:center;
-    justify-content: center;
-    background-color: black;
-    margin:0;
+#objects {
+  position: absolute;
+  user-select: none;
+  border-style: none;
+  outline: none;
+  transform: translateX(6px);
 }
-#screen{
-    position:absolute;
-    margin:0 0 0 0;
-    filter: unset;
-    image-rendering: pixelated;
+
+#objects > * {
+  outline: none;
+  position: absolute;
+  margin: 0;
+
+  border-style: none;
+  min-width: 96px;
+  max-width: 96px;
+  min-height: 96px;
+  max-height: 96px;
+  margin-top: 16px;
+  overflow: visible;
 }
-@font-face{
-    font-family:base;
-    src:url("./font.ttf");
+textarea {
+  border-style: none;
+  background-color: transparent;
+  resize: none;
+  color: transparent;
+  caret-color: #aa8085;
+  word-wrap: unset;
+  flex-wrap: unset;
+  overflow-wrap: nowrap;
+  white-space: pre;
+  text-align: left;
+  offset-anchor: -6px 0px;
+  padding-right: 4px;
+  transform: translate(-2px, -2.5px);
+}
+textarea::selection {
+  background-color: #856440d0;
+}
+#scriptbody {
+  position: absolute;
+  border-style: none;
+  overflow: scroll;
+  word-wrap: unset;
+  flex-wrap: unset;
+  overflow-wrap: nowrap;
+  white-space: pre;
+  outline: none;
+  background-color: transparent;
+  transform: translateX(0px);
+}
+
+::-webkit-scrollbar {
+  max-width: 0px;
+  max-height: 0px;
+  background-color: transparent;
+  color: white;
+  scroll-snap-type: mandatory;
+  transform: translateX(2px);
 }
