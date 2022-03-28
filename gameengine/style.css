@@ -1,0 +1,21 @@
+
+
+*{
+    overflow: hidden;
+}
+body{
+    align-content:center;
+    justify-content: center;
+    background-color: black;
+    margin:0;
+}
+#screen{
+    position:absolute;
+    margin:0 0 0 0;
+    filter: unset;
+    image-rendering: pixelated;
+}
+@font-face{
+    font-family:base;
+    src:url("./font.ttf");
+}
