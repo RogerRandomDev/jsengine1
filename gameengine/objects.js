@@ -6,7 +6,26 @@ class v2{
         this.x=x;this.y=y
     }
 }
-
+class texture{
+    constructor(data=null){
+        this.d=ctx.createImageData(8,8)
+        this.img = document.createElement('canvas')
+        this.img.width=8;
+        this.img.height=8;
+    }
+    setpixel(x,y,id){
+        let col={"r":0,"g":0,"b":0,"a":0}
+        if(id!=-1){
+        col =hexToRgb(color(id))
+        col["a"]=255
+        }
+        this.d.data[(x+y*8)*4]=col.r
+        this.d.data[(x+y*8)*4+1]=col.g
+        this.d.data[(x+y*8)*4+2]=col.b
+        this.d.data[(x+y*8)*4+3]=col.a
+        this.img.getContext("2d").putImageData(this.d,0,0)
+    }
+}
 class object{
     constructor(){
         this.children=[]
@@ -18,7 +37,7 @@ class object{
         this.active=false
         this.toggle=false;
     }
-
+    press(){}
     add(child){
         this.children.push(child)
         child.parent=this
@@ -28,8 +47,10 @@ class object{
     update(ax=0,ay=0){
         if(!this.visible){return}
         let x=ax+this.x;let y=ay+this.y
+        for(let child of this.children){child.update(x,y)}
         this.checkhover(x,y)
-        for(let child of this.children){child.update(x,y)}}
+    }
+        
     checkhover(x,y){
         this.hovered=mousepos.x>=x&&mousepos.x<=x+this.size.x&&mousepos.y>=y&&mousepos.y<=this.size.y+y
         if(this.hovered){current_hover=this}
@@ -48,13 +69,13 @@ class box extends object{
         this.color=colors;
     }
     update(ax=0,ay=0){
-        super.update()
+        
         if(!this.visible){return}
         ctx.fillStyle=this.color;
         let nx=ax+this.x;
         let ny=ay+this.y;
         ctx.fillRect(nx,ny,this.size.x,this.size.y)
-
+        super.update()
     }
 }
     
@@ -67,10 +88,12 @@ class label extends object{
         this.color=colors
     }
     update(ax=0,ay=0){
-        super.update();
+        
         if(!this.visible){return}
         ctx.fillStyle=this.color;
         let nx=ax+this.x;let ny=ax+this.y;
+        super.update();
         ctx.fillText(this.text,nx,ny)
+        
     }
 }

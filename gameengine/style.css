@@ -46,7 +46,11 @@ code {
   user-select: none;
   border-style: none;
   outline: none;
-  transform: translateX(6px);
+  overflow: scroll;
+  min-width: 96px;
+  min-height: 96px;
+  max-height: 96px;
+  max-width: 96px;
 }
 
 #objects > * {
@@ -58,29 +62,31 @@ code {
   min-width: 96px;
   max-width: 96px;
   min-height: 96px;
-  max-height: 96px;
-  margin-top: 16px;
+  
+  padding-left: -2px;
+  padding-right: 4px;
   overflow: visible;
 }
+
 textarea {
   border-style: none;
   background-color: transparent;
   resize: none;
-  color: transparent;
+  color:transparent;
   caret-color: #aa8085;
   word-wrap: unset;
   flex-wrap: unset;
   overflow-wrap: nowrap;
   white-space: pre;
   text-align: left;
-  offset-anchor: -6px 0px;
-  padding-right: 4px;
+  overflow: visible;
   transform: translate(-2px, -2.5px);
 }
 textarea::selection {
   background-color: #856440d0;
 }
 #scriptbody {
+  max-height: 96px;
   position: absolute;
   border-style: none;
   overflow: scroll;
@@ -90,7 +96,6 @@ textarea::selection {
   white-space: pre;
   outline: none;
   background-color: transparent;
-  transform: translateX(0px);
 }
 
 ::-webkit-scrollbar {
@@ -98,6 +103,4 @@ textarea::selection {
   max-height: 0px;
   background-color: transparent;
   color: white;
-  scroll-snap-type: mandatory;
-  transform: translateX(2px);
 }

@@ -17,13 +17,15 @@ class Tab extends box{
         }
         
         this.y =this.parent.children.indexOf(this)*8+this.parent.y
-        
         super.update()
+        
         ctx.fillStyle=this.fcolor;
         let px=this.x+this.size.x/2-ctx.measureText(this.text).width/2
         let py=this.y+this.size.y/2+2
+        
         ctx.fillText(this.text,px,py);
         this.color=color(4)
+        
     }
     press(){
         current_tab=this.text;
@@ -40,11 +42,42 @@ class Tab extends box{
     add(child){super.add(child);child.visible=false}
 }
 
+class drawing extends object{
+    constructor(px=0,py=0,size=new v2(64,64)){
+        super()
+        this.x=px
+        this.y=py
+        this.size=size
+        this.texture=new Image(8,8)
+        this.texture=new texture()
+        this.texture.setpixel(0,0,2)
+    }
+    update(px,py){
+        super.update(128+px,0)
+        ctx.drawImage(this.texture.img,23,16,64,64)
+        if(this.hovered){
+            ctx.strokeRect(Math.round(mousepos.x/8)*8,Math.round(mousepos.y/8)*8+1,6,6)
+        }
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
 
 let scriptscroll=setInterval(function(){
-    let sx=document.getElementById("scriptinput").scrollLeft
-    let sy=document.getElementById("scriptinput").scrollTop
-    document.getElementById("scriptbody").scrollTo(sx-1,sy)
+    let a=document.getElementById("scriptinput")
+    a.style.minHeight=a.scrollHeight
+    a.style.minWidth=a.scrollWidth
+    document.getElementById("scriptbody").style.minHeight=a.scrollHeight
+    document.getElementById("scriptbody").style.minWidth=a.scrollWidth
 }, 50);
 let do_caret=true
 let scriptcaret=setInterval(function(){

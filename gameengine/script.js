@@ -8,6 +8,7 @@ ctx.shadowOffsetY=0
 ctx.font="1rem base"
 window.onresize=update_size;
 update_size()
+ctx.imageSmoothingEnabled=false
 let current_hover=null;
 let currentactive=null;
 function update_size(){
@@ -18,10 +19,10 @@ function update_size(){
     screen.style.maxHeight=max_size
     screen.style.marginLeft=(window.innerWidth)/2-(max_size/2)
     document.getElementById("objects").style=screen.style
-    document.getElementById("objects").style.transform="scale("+max_size/128+","+max_size/128+") translateX(72px)"
+    document.getElementById("objects").style.transform="scale("+max_size/128+","+max_size/128+") translate(112px,56px)"
 
 }
-document.getElementsByClassName("code")[0].style.backgroundColor=color(5)
+document.getElementById("objects").style.backgroundColor=color(5)
 let mousepos=new v2(0,0)
 
 /*editor setup*/
@@ -75,4 +76,9 @@ let timer = setInterval(function(){
 /*putting rest of scene here*/
 let codetitle=new label("code",-56,-104,color(7))
 tab0.add(codetitle)
+currentactive=tab0
+let artback=new box(-106,8,vector2(96,96),color(3))
+tab1.add(artback)
+let draw=new drawing(0,0,vector2(64,64));
+artback.add(draw)
 codetitle.visible=true
