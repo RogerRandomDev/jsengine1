@@ -36,6 +36,10 @@ class object{
         this.visible=true
         this.active=false
         this.toggle=false;
+        this.done=false
+        this.onclick="";
+        this.onhover="";
+        
     }
     press(){}
     add(child){
@@ -49,6 +53,7 @@ class object{
         let x=ax+this.x;let y=ay+this.y
         for(let child of this.children){child.update(x,y)}
         this.checkhover(x,y)
+        if(!mpressed){this.done=false}
     }
         
     checkhover(x,y){
@@ -61,12 +66,12 @@ class object{
 
 
 class box extends object{
-    constructor(x,y,size=new v2(1,1),colors=color(0)){
+    constructor(x,y,size=new v2(2,2),colorse=colors[0]){
         super()
         this.x=x;
         this.y=y;
         this.size=size;
-        this.color=colors;
+        this.color=colorse;
     }
     update(ax=0,ay=0){
         
@@ -75,7 +80,7 @@ class box extends object{
         let nx=ax+this.x;
         let ny=ay+this.y;
         ctx.fillRect(nx,ny,this.size.x,this.size.y)
-        super.update()
+        super.update(ax,ay)
     }
 }
     
@@ -92,8 +97,48 @@ class label extends object{
         if(!this.visible){return}
         ctx.fillStyle=this.color;
         let nx=ax+this.x;let ny=ax+this.y;
-        super.update();
+        super.update(ax,ay);
         ctx.fillText(this.text,nx,ny)
         
+    }
+}
+
+class btn extends object{
+    constructor(text="",x=0,y=0,fcolrs=0,colres=1,hovercol=3){
+        super()
+        fcolrs=colors[fcolrs]
+        colres=colors[colres]
+        let s=ctx.measureText(text);
+        this.size.x=Math.round(s.width*2);
+        this.size.y=7*text.split("\n").length-1;
+        this.x=x
+        this.y=y;
+        this.color=colres
+        this.fcolor=fcolrs;
+        this.hcolor=colors[hovercol];
+        this.text=text;
+    }
+    update(ax=0,ay=0){
+        if(!this.visible){return}
+        if(this.hovered&&!mpressed){ctx.fillStyle=this.hcolor}else{ctx.fillStyle=this.color}
+        if(this.hovered&&mpressed&&!this.done){eval(this.onclick);this.done=true}
+        
+        ctx.fillRect(this.x+ax,this.y+ay,this.size.x,this.size.y)
+        ctx.fillStyle=this.fcolor;
+        ctx.fillText(this.text,ax+this.x,ay+this.y+this.size.y);
+        super.update(ax,ay)
+        
+    }
+}
+class tilemap extends object{
+    constructor(){
+        super()
+        this.x=0;
+        this.y=0;
+        this.tiles=[]
+    }
+    update(){
+        super.update()
+
     }
 }

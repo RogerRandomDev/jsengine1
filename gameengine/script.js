@@ -1,13 +1,17 @@
 
-
 let screen=document.getElementById("screen")
 let ctx=screen.getContext("2d")
 ctx.shadowBlur=0;
 ctx.shadowOffsetX=0
 ctx.shadowOffsetY=0
 ctx.font="1rem base"
+let hasloop=false;
 window.onresize=update_size;
 update_size()
+let imagelist={}
+
+let mpressed=false;
+ctx.smoothingEnabled=false
 ctx.imageSmoothingEnabled=false
 let current_hover=null;
 let currentactive=null;
@@ -20,17 +24,19 @@ function update_size(){
     screen.style.marginLeft=(window.innerWidth)/2-(max_size/2)
     document.getElementById("objects").style=screen.style
     document.getElementById("objects").style.transform="scale("+max_size/128+","+max_size/128+") translate(112px,56px)"
-
+    document.getElementById("objects").style.backgroundColor=color(5)
+    if(current_tab!="code"){document.getElementById("objects").style.display="none"}
 }
 document.getElementById("objects").style.backgroundColor=color(5)
 let mousepos=new v2(0,0)
 
 /*editor setup*/
 let root =new object()
+let eroot=new object()
 let tabcont=new object();
 let tab0=new Tab(vector2(16,8),"code")
 let tab1=new Tab(vector2(16,8),"art")
-root.add(tabcont)
+eroot.add(tabcont)
 tabcont.add(tab0)
 tabcont.add(tab1)
 
@@ -50,12 +56,13 @@ screen.addEventListener('mousemove',function(ev){
     mousepos.y=my;})
 document.getElementById("scriptinput").addEventListener("input",checkinput)
 screen.addEventListener('mousedown',function(){
+    mpressed=true
     if(current_hover==null||current_hover.hovered!=true){return}
     if(currentactive!=null){currentactive.active=false}
     current_hover.press()
     currentactive=current_hover
-    
 })
+screen.addEventListener('mouseup',function(){mpressed=false})
 function checkinput(){
     let n=this;
     if(this==window){n=document.getElementById("scriptinput")}
@@ -64,12 +71,19 @@ function checkinput(){
     sbod.innerHTML=returned;hljs.highlightElement(sbod)
 }
 checkinput()
+let editor=true
 /*the process function for every frame*/
 let timer = setInterval(function(){
     ctx.clearRect(0,0,128,128)
     ctx.fillStyle=background
     ctx.fillRect(0,0,128,128)
-    root.update()
+    if(editor){
+    eroot.update(0,0)}
+    else{
+        if(hasloop){loop()}
+        root.update(0,0)
+        
+    }
 }, 50);
 
 
@@ -81,4 +95,20 @@ let artback=new box(-106,8,vector2(96,96),color(3))
 tab1.add(artback)
 let draw=new drawing(0,0,vector2(64,64));
 artback.add(draw)
-codetitle.visible=true
+artback.color="#4a4445"
+let colorlist=new box(-88,-6,vector2(64,14),"#2f2f2f")
+for(let i=0;i<colors.length;i++){
+    let nitem=new colorpicker(i%11*6,Math.round(i/11-0.5)*6,new v2(4,4),i)
+    colorlist.add(nitem)
+    
+}
+let btne = new btn("run",-112,0,2,3,4)
+let newdraw = new btn("new",-112,-8,2,3,4)
+let savedraw = new btn("save",-112,-1,2,3,4)
+savedraw.onclick="saveimage();undoimage();savedraw.done=true"
+newdraw.onclick="undoimage()";
+btne.onclick="loadcode()"
+tab0.add(btne)
+tab1.add(colorlist)
+tab1.add(newdraw)
+tab1.add(savedraw)
