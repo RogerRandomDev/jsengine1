@@ -16,7 +16,7 @@ function saveAll(){
     saveStaticDataToFile(JSON.stringify(data))
     
 }
-function loadFile(fileToLoad){
+function loadFiile(fileToLoad){
     var fr = new FileReader();
     fr.onload = function(e) {
     content = e.target.result; // here is the loaded content;
@@ -25,17 +25,33 @@ function loadFile(fileToLoad){
     fr.readAsText(fileToLoad);
 }
 function finishload(data){
-    console.log(data)
+    data=JSON.parse(data)
+    let code = data.code;
+    let images=data.Images;
+    imagelist={}
+    for(let [key,value] of Object.entries(images)){
+       createtexture(key,value)
+    }
+    document.getElementById("scriptinput").value=code
+    checkinput()
 }
 function loadfile(){
     let inp=document.getElementById("filein")
     if(inp.files.length==0){return}
-    
-    let output=document.createElement("output")
-    output.src=URL.createObjectURL(inp.files[0])
-    output.onload=function(){
-        loadfile(this.src)
-        URL.revokeObjectURL(output.src)
-        console.log("a")
-    }
+    loadFiile(inp.files[0])
+}
+
+function createtexture(name,data){
+    let a=document.createElement("canvas")
+    let ctx=a.getContext("2d")
+    a.width=8;a.height=8;
+    let d=ctx.createImageData(8,8)
+    for(let x=0;x<8;x++){for(let y=0;y<8;y++){
+        d.data[(x+y*8)*4]=data[(x+y*8)*4]
+        d.data[(x+y*8)*4+1]=data[(x+y*8)*4+1]
+        d.data[(x+y*8)*4+2]=data[(x+y*8)*4+2]
+        d.data[(x+y*8)*4+3]=data[(x+y*8)*4+3]
+    }}
+    ctx.putImageData(d,0,0)
+    imagelist[name]=a
 }

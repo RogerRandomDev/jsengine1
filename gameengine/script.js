@@ -111,12 +111,12 @@ root.visible=true
 let codetitle=new label("code",-56,-104,color(7))
 tab0.add(codetitle)
 currentactive=tab0
-let artback=new box(-106,8,vector2(96,96),color(3))
+let artback=new box(-92,20,vector2(72,72),color(3))
 tab1.add(artback)
 let draw=new drawing(0,0,vector2(64,64));
 artback.add(draw)
 artback.color="#4a4445"
-let colorlist=new box(-88,-6,vector2(64,14),"#2f2f2f")
+let colorlist=new box(-88,6,vector2(64,14),"#2f2f2f")
 for(let i=0;i<colors.length;i++){
     let nitem=new colorpicker(i%11*6,Math.round(i/11-0.5)*6,new v2(4,4),i)
     colorlist.add(nitem)

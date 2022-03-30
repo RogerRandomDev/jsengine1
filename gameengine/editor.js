@@ -62,17 +62,17 @@ class drawing extends object{
         this.texture=new Image(8,8)
         this.texture=new texture()
         
-        this.x=16
-        this.y=24
+        this.x=4
+        this.y=12
         this.inputpoint=new v2(0,0)
     }
     update(px,py){
         this.visible=true;
-        ctx.drawImage(this.texture.img,23,32,64,64)
+        ctx.drawImage(this.texture.img,24,32,64,64)
         if(this.hovered){
-            this.inputpoint.x=Math.min(Math.max(Math.round(mousepos.x/8+0.5),4),11)
-            this.inputpoint.y=Math.round(Math.min(Math.max((mousepos.y/8+0.5),5),12))
-            ctx.strokeRect(this.inputpoint.x*8-8,this.inputpoint.y*8-7,6,6)
+            this.inputpoint.x=Math.min(Math.max(Math.round((mousepos.x)/8+0.5),4),11)
+            this.inputpoint.y=Math.round(Math.min(Math.max(((mousepos.y)/8+0.5),5),12))
+            ctx.strokeRect(this.inputpoint.x*8-7,this.inputpoint.y*8-7,6,6)
             if(mpressed){this.press()}
             
         }
