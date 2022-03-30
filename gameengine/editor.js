@@ -1,5 +1,6 @@
 let current_tab="code"
 let currentcolor=0
+let helppage=null
 class Tab extends box{
     constructor(size=new v2(8,8),text){
         super(0,0,size)
@@ -21,8 +22,8 @@ class Tab extends box{
         super.update(ax,ay)
         
         ctx.fillStyle=this.fcolor;
-        let px=ax+this.x+this.size.x/2-ctx.measureText(this.text).width/2
-        let py=ay+this.y+this.size.y/2+2
+        let px=Math.round(ax+this.x+this.size.x/2-ctx.measureText(this.text).width/2)
+        let py=Math.round(ay+this.y+this.size.y/2+2)
         
         ctx.fillText(this.text,px,py);
         this.color=color(4)
@@ -37,22 +38,55 @@ class Tab extends box{
         }
     check(){
         if(current_tab!=this.text){for(let child of this.children){child.visible=false}}else{for(let child of this.children){child.visible=true;}}
+        if(current_tab=="help"){
+            document.getElementById("helper").style.visiblility="visible";
+            document.getElementById("helper").style.userSelect="all";
+            document.getElementById("helper").style.zIndex="1000";
+            document.getElementById("helper").style.display="block";
+        }else{
+        document.getElementById("helper").style.visiblility="hidden";
+        document.getElementById("helper").style.userSelect="none";
+        document.getElementById("helper").style.zIndex="-1";
+        document.getElementById("helper").style.display="none";
+        }
         if(current_tab=="code"){
             document.getElementById("objects").style.visiblility="visible";
             document.getElementById("objects").style.userSelect="all";
             document.getElementById("objects").style.zIndex="1000";
             document.getElementById("objects").style.display="block";
-        }else{
-            document.getElementById("objects").style.visiblility="hidden";
-            document.getElementById("objects").style.userSelect="none";
-            document.getElementById("objects").style.zIndex="-1";
-            document.getElementById("objects").style.display="none";
         }
-        
+        if(current_tab!="code"){
+        document.getElementById("objects").style.visiblility="hidden";
+        document.getElementById("objects").style.userSelect="none";
+        document.getElementById("objects").style.zIndex="-1";
+        document.getElementById("objects").style.display="none";
+        }
+
     }
     add(child){super.add(child);child.visible=false}
 }
-
+class topTab extends box{
+    constructor(txt,color,fcolor){
+        super(0,0,new v2(28,8))
+        this.txtlen=ctx.measureText(txt).width
+        this.fcolor=fcolor
+        this.color=color
+        this.text=txt;
+    }
+    update(ax,ay){
+        if(!this.visible){return}
+        let idx=this.parent.children.indexOf(this)
+        this.x=32-(28*(idx))*(idx%2==0?1:-1)
+        if(this.hovered||this.active||current_tab==this.text){
+            this.color=color(2)
+        }
+        super.update(0,10);
+        ctx.fillStyle=this.fcolor;
+        ctx.fillText(this.text,this.x-this.txtlen/2+13,ay+this.y);
+        this.color=color(4)
+    }
+    press(){current_tab=this.text;eval(this.onclick)}
+}
 class drawing extends object{
     constructor(px=0,py=0){
         super()
@@ -126,9 +160,5 @@ let scriptscroll=setInterval(function(){
     document.getElementById("scriptbody").style.minHeight=a.scrollHeight
     document.getElementById("scriptbody").style.minWidth=a.scrollWidth
 }, 50);
-let do_caret=true
-let scriptcaret=setInterval(function(){
-    do_caret=!do_caret
-},675);
 
 

@@ -150,23 +150,36 @@ class tilemap extends object{
         this.y=y;
         this.map=[[-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1],[-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1],[-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1],[-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1],[-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1],[-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1],[-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1],[-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1],[-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1],[-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1],[-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1],[-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1],[-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1],[-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1],[-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1],[-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1]]
         this.tiles=[]
+        this.fullmap=document.createElement("canvas")
+        this.fullmap.width=128;this.fullmap.height=128;
         collisionobjects.push(this)
     }
     update(ax,ay){
         super.update()
-        for(let x=0;x<16;x++){for(let y=0;y<16;y++){
-            let idx=this.map[y][x]
-            if(idx==-1){continue}
-            ctx.drawImage(this.tiles[idx],x*8,y*8,8,8)
-        }}
+        ctx.drawImage(this.fullmap,this.x+ax,this.y+ay)
     }
     setTile(idx,name){
         if(this.tiles.length-1<=idx){
             this.tiles[idx]=loadtex()[name]
         }
+        
+    }
+    setCell(x=0,y=0,id=-1){
+        this.map[y][x]=id
+        this.updateMap()
+    }
+    updateMap(){
+        let nctx=this.fullmap.getContext("2d")
+        nctx.fillStyle="#00000000"
+        for(let x=0;x<16;x++){for(let y=0;y<16;y++){
+            let idx=this.map[y][x]
+            if(idx==-1){nctx.fillRect(x*8,y*8,8,8);continue}
+            nctx.drawImage(this.tiles[idx],x*8,y*8,8,8)
+        }}
     }
     addTile(name){this.tiles.push(loadtex()[name])}
     checkcollision(x,y){
+        x-=Math.round(this.x/8);Math.round(y-=this.y/8);
         return this.map[y][x]!=-1
     }
 }
@@ -174,7 +187,7 @@ class tilemap extends object{
 class sprite extends object{
     constructor(x=0,y=0,texture=""){
         super()
-        this.texture=loadtex()[texture]
+        this.texture=loadtex(texture)
         this.x=x
         this.y=y
         this.size=new v2(8,8)

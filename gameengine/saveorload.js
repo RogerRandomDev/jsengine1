@@ -16,7 +16,7 @@ function saveAll(){
     saveStaticDataToFile(JSON.stringify(data))
     
 }
-function loadFiile(fileToLoad){
+function leeff(fileToLoad){
     var fr = new FileReader();
     fr.onload = function(e) {
     content = e.target.result; // here is the loaded content;
@@ -38,7 +38,7 @@ function finishload(data){
 function loadfile(){
     let inp=document.getElementById("filein")
     if(inp.files.length==0){return}
-    loadFiile(inp.files[0])
+    leeff(inp.files[0])
 }
 
 function createtexture(name,data){
@@ -54,4 +54,12 @@ function createtexture(name,data){
     }}
     ctx.putImageData(d,0,0)
     imagelist[name]=a
+}
+function grabfile(filepath,target){
+    var fr = new FileReader();
+    fr.onload = function(e) {
+    content = e.target.result; // here is the loaded content;
+    loadfiletocontent(content,target)
+    }
+    fr.readAsText(filepath);
 }

@@ -42,9 +42,17 @@ let eroot=new object();
 let tabcont=new object();
 let tab0=new Tab(vector2(16,8),"code")
 let tab1=new Tab(vector2(16,8),"art")
+let taba=new Tab(vector2(16,8),"help")
 eroot.add(tabcont)
 tabcont.add(tab0)
 tabcont.add(tab1)
+tabcont.add(taba)
+//setting up the settings tabs
+
+
+
+
+
 let keysdown=[]
 
 var background=color(6)
@@ -52,18 +60,19 @@ var background=color(6)
 
 
 /*input events*/
-addEventListener("keydown",function(ev){
+document.addEventListener("keydown",function(ev){
     if(!keysdown.includes(ev.key)){
         keysdown.push(ev.key)
     }
 })
-addEventListener("keyup",function(ev){
+document.addEventListener("keyup",function(ev){
     let index = keysdown.indexOf(ev.key)
     if(index!=-1){
         keysdown.splice(index,1)
     }
 })
-screen.addEventListener('mousemove',function(ev){
+let inputhelp=document.getElementById("inputtop")
+document.addEventListener('mousemove',function(ev){
     if(currentactive!=null){currentactive.active=false};
     if(current_hover!=null){current_hover.active=false}
     var max_size=Math.min(window.innerWidth,window.innerHeight)
@@ -72,7 +81,7 @@ screen.addEventListener('mousemove',function(ev){
     mousepos.x=mx;
     mousepos.y=my;})
 document.getElementById("scriptinput").addEventListener("input",checkinput)
-screen.addEventListener('mousedown',function(){
+document.addEventListener('mousedown',function(){
     mpressed=true
     if(mjust==false){
         mjust=true
@@ -85,7 +94,7 @@ screen.addEventListener('mousedown',function(){
     current_hover.press()
     currentactive=current_hover
 })
-screen.addEventListener('mouseup',function(){mpressed=false})
+inputhelp.addEventListener('mouseup',function(){mpressed=false})
 function checkinput(){
     let n=this;
     if(this==window){n=document.getElementById("scriptinput")}
@@ -144,3 +153,4 @@ mousepos.x=-30
 mousepos.y=-30
 tab0.hovered=true
 tab0.press()
+taba.press()

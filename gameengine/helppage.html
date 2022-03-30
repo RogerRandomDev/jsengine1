@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!-- Include library -->
+    <link rel="stylesheet" href="./packages/highlight/styles/a11y-dark.min.css">
+    <script src="./packages/highlight/highlight.min.js"></script>
+    <script src="./packages/filesaver.min.js"></script>
+    <!-- Initialize highlight -->
+    <script>hljs.highlightAll();</script>
+    <link rel="stylesheet" href="./helpstyle.css">
+    <script src="./help.js" type="text/javascript"></script>
+</head>
+<body>
+    <section class="toprow" id="top">
+    <header>DOCUMENTATION</header>
+    <hr class="nomargin">
+    <div id="curpath"></div>
+    </section>
+    <section id="body">
+        <div id="functions" class="colorlist">
+            Inbuilt Function List
+            <ul>
+                <li><e>add</e>(<c>node</c>)</li>
+                <li><e>endgame</e>()<br>closes back to <d>engine</d></li>
+                <li><e>loadtex</e>(<c>name</c>)<br>loads <c>texture</c> with name of given <d>string</d><br>
+                if no <d>name</d> is given, it gives a dictionary of all <c>textures</c></li>
+                <li><e></e>()</li>
+                <li><e></e>()</li>
+                <li><e></e>()</li>
+                <li><e></e>()</li>
+                <li><c>Object</c>{</li>
+                <ul>
+                    <li><c>variables</c></li>
+                    <ul>
+                        <li><c>x</c>,<c>y</c><br>
+                        Dictates position</li>
+                        <li><c>children[]</c><br>
+                        the children nodes added with <e>add</e>(<c>node</c>)</li>
+                        <li><c>visible:</c><d>T/F</d><br>
+                        decides whether it and its <c>children</c> will show and update</li>
+                    </ul>
+                    <li><c>Functions</c></li>
+                    <li><e>add</e>(<c>node</c>)</li>
+                    <li><e>moveWithCollision</e>(<c>dist(x,y)</c>)<br>
+                        <ul><li>takes a <e>vector2</e> and must be in <c>int</c><br></li>
+                            <li>will cap motion to the screen itself and only checks with <c>tilemap</c></li>
+                    </ul>
+                    </li>
+                    <li><e></e>(<c></c>)</li>
+                    <li><e></e>(<c></c>)</li>
+                    <li><e></e>(<c></c>)</li>
+                    <li><e></e>(<c></c>)</li>
+                    <li><e></e>(<c></c>)</li>
+                    <li><e></e>(<c></c>)</li>
+                    <li><e></e>(<c></c>)</li>
+                </ul>
+            </ul>
+            <d>Functions used for engine</d><br>
+            <d>These also include the default javascript functions</d>
+            <ul>
+                <li><e>readAsText</e>()</li>
+                <li><e>loadfiletocontent</e>()</li>
+                <li><e>grabfile</e>()</li>
+                <li><e>createTexture</e>()</li>
+                <li><e>loadfile</e>()</li>
+                <li><e>leeff</e>()</li>
+                <li><e>finishload</e>()</li>
+                <li><e>checkinput</e>()</li>
+                <li><e>saveAll</e>()</li>
+                <li><e>saveStaticDataToFile</e>()</li>
+                <li><e>update_size</e>()</li>
+                <li><e>checkinput</e>()</li>
+                <li><e>highlightElement</e>()</li>
+                <li><e>loadcode</e>()</li>
+                <li><e>to_image</e>()</li>
+                <li><e>undoimage</e>()</li>
+                <li><e>saveimage</e>()</li>
+                <li><e></e>()</li>
+                <li><e></e>()</li>
+                <li><e></e>()</li>
+                <li><e></e>()</li>
+                <li><e></e>()</li>
+            </ul>
+        </div>
+        <div id="Object" class="colorlist"></div>
+    </section>
+</body>
+</html>

@@ -1,0 +1,88 @@
+:root {
+  --color0: #caa982;
+  --color1: #aa8085;
+  --color2: #856440;
+  --color3: #4a473a;
+  --color4: #b96f2c;
+  --color5: #774024;
+  --color6: #4e2823;
+  --color7: #8b9a3b;
+  --color8: #397a41;
+  --color9: #2c403c;
+  --color10: #629cc5;
+  --color11: #67628a;
+  --color12: #36445a;
+  --color13: #707068;
+  --color14: #33333a;
+  --color15: #182029;
+}
+body {
+  overflow-x: hidden;
+  overflow-y: hidden;
+  width: 100vmin;
+  height: 100vmin;
+  margin: 0 auto;
+
+  z-index: 10000 !important;
+}
+* {
+  font-family: body;
+  color: var(--color0);
+  user-select: none;
+  box-shadow: none;
+  text-shadow: none;
+  text-decoration: none;
+  list-style: none;
+}
+header {
+  text-align: center;
+  font-size: 3rem;
+  background-color: var(--color3);
+}
+hr {
+  background-color: var(--color2);
+  border-color: var(--color2);
+  color: var(--color2);
+  border-radius: 0px;
+  border-top-width: 4px;
+  border-style: outset;
+}
+.nomargin {
+  margin: 0;
+}
+.toprow {
+  padding-top: 0;
+  padding-bottom: 0;
+  margin: 0;
+  max-width: 87.5%;
+
+  border-right-style: none;
+}
+section {
+  font-size: 1rem;
+}
+#body {
+  overflow-y: scroll;
+}
+@font-face {
+  font-family: 'body';
+  src: url('./font.ttf');
+}
+li {
+  overflow-wrap: unset;
+  overflow: visible;
+  position: relative;
+  text-align: start;
+}
+/*
+everything for a while is just for styling the colors of functions and whatnot
+*/
+c {
+  color: #2faaff;
+}
+d {
+  color: #ff0000;
+}
+e {
+  color: #aaffaa;
+}
