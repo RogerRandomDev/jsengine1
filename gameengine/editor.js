@@ -10,7 +10,6 @@ class Tab extends box{
         this.y=64;
         this.active=false;
         this.toggle=true;
-        
     }
     update(ax,ay){
         if(!this.visible){return}
@@ -31,7 +30,14 @@ class Tab extends box{
     }
     press(){
         current_tab=this.text;
-        if(this.text=="code"){
+        if(curtab!=null){curtab.check()}
+        curtab=this;
+        this.check();
+        
+        }
+    check(){
+        if(current_tab!=this.text){for(let child of this.children){child.visible=false}}else{for(let child of this.children){child.visible=true;}}
+        if(current_tab=="code"){
             document.getElementById("objects").style.visiblility="visible";
             document.getElementById("objects").style.userSelect="all";
             document.getElementById("objects").style.zIndex="1000";
@@ -42,8 +48,7 @@ class Tab extends box{
             document.getElementById("objects").style.zIndex="-1";
             document.getElementById("objects").style.display="none";
         }
-        if(currentactive!=null&&currentactive.children.length!=0){for(let child of currentactive.children){child.visible=false;}}
-        for(let child of this.children){child.visible=true;}
+        
     }
     add(child){super.add(child);child.visible=false}
 }
@@ -62,7 +67,7 @@ class drawing extends object{
         this.inputpoint=new v2(0,0)
     }
     update(px,py){
-        this.visible=true
+        this.visible=true;
         ctx.drawImage(this.texture.img,23,32,64,64)
         if(this.hovered){
             this.inputpoint.x=Math.min(Math.max(Math.round(mousepos.x/8+0.5),4),11)
@@ -79,20 +84,25 @@ class drawing extends object{
 }
 class colorpicker extends box{
     constructor(px,py,size=new v2(4,4),colrs=0){
+        let tr=false
+        if(colrs==-1){
+        tr=true
+        colrs=1}
         super(px,py,size,colors[colrs])
         this.color=colors[colrs]
         this.id=colrs
+        if(tr){this.id=-1;this.color="#ff0000"}
     }
     press(){
         currentcolor=this.id
     }
     update(px,py){
-        
+        if(!this.visible){return}
         if(currentcolor==this.id){
             ctx.fillStyle="#ffffff"
             ctx.fillRect(this.x+px-1,this.y+py-1,6,6)
         }
-        if(this.hovered&&mpressed){this.press()}
+        if(this.hovered&&mjust){this.press()}
         ctx.fillStyle=this.color
         
         ctx.fillRect(this.x+px,this.y+py,4,4)
@@ -122,25 +132,3 @@ let scriptcaret=setInterval(function(){
 },675);
 
 
-function loadcode(){
-    root.visible=false
-    let a=new Tab(new v2(0,0),"aa")
-    a.press()
-    let obj = document.getElementById("insertion_point")
-    for(let child of obj.children){obj.removeChild(child)}
-    let nchild = document.createElement("script")
-    let ncont =document.getElementById("scriptinput").value
-    
-    console.log(ncont)
-    nchild.innerHTML=ncont
-    nchild.defer=true
-    nchild.type="text/javascript"
-    obj.appendChild(nchild)
-    
-    hasloop=ncont.includes("function loop()")
-    if(ncont.includes("function ready()")){ready()}
-    editor=false
-}
-function undoimage(){
-    draw.texture=new texture();
-}

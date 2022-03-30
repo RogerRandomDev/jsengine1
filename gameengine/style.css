@@ -1,12 +1,17 @@
 * {
   image-rendering: pixelated;
   font-family: base;
-  font-size: 5px;
+  font-size: 8px;
   margin: 0;
   box-shadow: 0 0;
   border-style: none;
   text-shadow: none;
 }
+input{
+  font-family:'base';
+  position:absolute;
+}
+
 body {
   overflow: hidden;
   align-content: center;
@@ -18,7 +23,7 @@ body {
   position: absolute;
   margin: 0 0 0 0;
   font-size-adjust: none;
-  font-size: 5px;
+  font-size: 8px;
   box-shadow: 0 0;
 
   user-select: none;
@@ -30,8 +35,8 @@ body {
   z-index: 30000 !important;
 }
 @font-face {
-  font-family: base;
-  src: url('./font.ttf');
+  font-family: 'base';
+  src: url('./font.TTF');
   perspective: 1px;
   text-shadow: 0 0;
   box-shadow: 0 0;
@@ -48,6 +53,7 @@ code {
   outline: none;
   overflow: scroll;
   margin:0 auto;
+  left:2.5%;
   min-width: 96px;
   min-height: 96px;
   max-height: 96px;

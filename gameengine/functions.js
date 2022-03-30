@@ -27,27 +27,41 @@ function to_image(imagedata) {
 function add(obj){
   root.add(obj)
 }
+let removedvars=[]
 function loadcode(){
-  root.visible=false
-  let a=new Tab(new v2(0,0),"aa")
+  let a=new Tab("aa")
   a.press()
-  let obj = document.getElementById("insertion_point")
-  for(let child of obj.children){obj.removeChild(child)}
-  let nchild = document.createElement("script")
-  let ncont =document.getElementById("scriptinput").value
-  
-  console.log(ncont)
-  nchild.innerHTML=ncont
-  nchild.defer=true
-  nchild.type="text/javascript"
-  obj.appendChild(nchild)
-  
-  hasloop=ncont.includes("function loop()")
-  if(ncont.includes("function ready()")){ready()}
-  editor=false
+    let returnbtn= new btn("End",0,0,2,3,4)
+    root.add(returnbtn)
+    returnbtn.onclick="endgame()"
+    mjust=false
+    try{
+    let obj = document.getElementById("insertion_point")
+    for(let child of obj.children){obj.removeChild(child)}
+    let nchild = document.createElement("script")
+    let ncont =document.getElementById("scriptinput").value
+    ncont=ncont.replaceAll("let ","var ")
+    ncont=ncont.replaceAll("const ","var ")
+    
+    nchild.innerHTML=ncont
+    nchild.defer=true
+    nchild.type="text/javascript"
+    obj.appendChild(nchild)
+    removedvars=[]
+    for(let i of ncont.split("var ")){
+      if(i==''){continue}
+      removedvars.push(i.split("=")[0].replace(" ",""))
+    }
+    hasloop=ncont.includes("function loop()")
+    if(ncont.includes("function ready()")){ready()}
+    }catch(exception){
+      throw exception
+    }
+    editor=false
+    eroot.visible=false
 }
 function undoimage(){
-  draw.texture=new texture();
+    draw.texture=new texture();
 }
 function saveimage(){
   let nameof=prompt("Image Name:")
@@ -55,4 +69,31 @@ function saveimage(){
   n.width=8;n.height=8;
   n.getContext("2d").putImageData(draw.texture.d,0,0)
   imagelist[nameof]=n
+}
+function loadtex(id=""){
+  if(id!=""){return imagelist[id]}
+  return imagelist;
+}
+function endgame(){
+  editor=true
+  mjust=false
+  let obj = document.getElementById("insertion_point")
+  for(let child of obj.children){obj.removeChild(child)}
+  eroot.visible=true
+  for(let i=1;i<removedvars.length;i++){
+    let to=removedvars[i]
+    eval('delete window.'+to.replace(";",""))
+    
+  }
+  root.children=[]
+  tab0.press()
+  collisionobjects=[]
+  removedvars=[]
+}
+function isKeyPressed(key){return keysdown.includes(key)}
+function getInput(){
+  let out=new v2(0,0);
+  out.x=isKeyPressed("d")-isKeyPressed("a")
+  out.y=isKeyPressed("s")-isKeyPressed("w")
+  return out
 }

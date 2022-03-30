@@ -39,19 +39,32 @@ class object{
         this.done=false
         this.onclick="";
         this.onhover="";
-        
     }
     press(){}
     add(child){
         this.children.push(child)
         child.parent=this
     }
+    moveWithCollision(dist){
 
+        let x=Math.round((this.x)/8)+dist.x
+        let y=Math.round((this.y)/8)+dist.y
+        x=Math.min(Math.max(x,0),15)
+        y=Math.min(Math.max(y,0),15)
+        for(let collision of collisionobjects){
+            if(collision.checkcollision(x,y)){
+                return false
+            }
+        }
+        this.x=x*8;this.y=y*8;
+        return true
+    }
 
     update(ax=0,ay=0){
         if(!this.visible){return}
         let x=ax+this.x;let y=ay+this.y
-        for(let child of this.children){child.update(x,y)}
+        for(let child of this.children){
+            child.update(x,y)}
         this.checkhover(x,y)
         if(!mpressed){this.done=false}
     }
@@ -109,9 +122,9 @@ class btn extends object{
         fcolrs=colors[fcolrs]
         colres=colors[colres]
         let s=ctx.measureText(text);
-        this.size.x=Math.round(s.width*2);
+        this.size.x=Math.round(s.width*1.125);
         this.size.y=7*text.split("\n").length-1;
-        this.x=x
+        this.x=x;
         this.y=y;
         this.color=colres
         this.fcolor=fcolrs;
@@ -120,8 +133,8 @@ class btn extends object{
     }
     update(ax=0,ay=0){
         if(!this.visible){return}
-        if(this.hovered&&!mpressed){ctx.fillStyle=this.hcolor}else{ctx.fillStyle=this.color}
-        if(this.hovered&&mpressed&&!this.done){eval(this.onclick);this.done=true}
+        if(this.hovered&&!mjust){ctx.fillStyle=this.hcolor}else{ctx.fillStyle=this.color}
+        if(this.hovered&&mjust){eval(this.onclick);this.done=true}
         
         ctx.fillRect(this.x+ax,this.y+ay,this.size.x,this.size.y)
         ctx.fillStyle=this.fcolor;
@@ -131,14 +144,45 @@ class btn extends object{
     }
 }
 class tilemap extends object{
-    constructor(){
+    constructor(x=0,y=0){
         super()
-        this.x=0;
-        this.y=0;
+        this.x=x;
+        this.y=y;
+        this.map=[[-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1],[-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1],[-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1],[-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1],[-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1],[-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1],[-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1],[-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1],[-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1],[-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1],[-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1],[-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1],[-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1],[-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1],[-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1],[-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1]]
         this.tiles=[]
+        collisionobjects.push(this)
     }
-    update(){
+    update(ax,ay){
         super.update()
+        for(let x=0;x<16;x++){for(let y=0;y<16;y++){
+            let idx=this.map[y][x]
+            if(idx==-1){continue}
+            ctx.drawImage(this.tiles[idx],x*8,y*8,8,8)
+        }}
+    }
+    setTile(idx,name){
+        if(this.tiles.length-1<=idx){
+            this.tiles[idx]=loadtex()[name]
+        }
+    }
+    addTile(name){this.tiles.push(loadtex()[name])}
+    checkcollision(x,y){
+        return this.map[y][x]!=-1
+    }
+}
+
+class sprite extends object{
+    constructor(x=0,y=0,texture=""){
+        super()
+        this.texture=loadtex()[texture]
+        this.x=x
+        this.y=y
+        this.size=new v2(8,8)
+    }
+    update(ax,ay){
+        if(!this.visible){return}
+        super.update(ax,ay)
+        ctx.drawImage(this.texture,ax+this.x,ay+this.y)
 
     }
 }
