@@ -49,8 +49,8 @@ body {
   z-index: 100;
 }
 @font-face {
-  font-family: 'base';
-  src: url('./font.TTF');
+  font-family: base;
+  src: url('./font.ttf');
   perspective: 1px;
   text-shadow: 0 0;
   box-shadow: 0 0;

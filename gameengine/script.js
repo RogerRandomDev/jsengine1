@@ -6,10 +6,11 @@ ctx.shadowOffsetX=0
 ctx.shadowOffsetY=0
 ctx.width=128
 ctx.height=128
-ctx.font="8px base"
+ctx.font="1rem base"
 let hasloop=false;
 window.onresize=update_size;
 update_size()
+let camera=new cam()
 let imagelist={}
 let collisionobjects=[]
 ctx.filter="none";
@@ -112,7 +113,12 @@ let timer = setInterval(function(){
     if(editor){eroot.update(0,0)}
     if(!editor){
         if(hasloop){try{loop()}catch(error){endgame();alert("Code has errored\nReason:\n"+error)}}
-        root.update(0,0)}
+        let c=root.children[0]
+        c.x=-camera.x
+        c.y=-camera.y
+        root.update(camera.x,camera.y)
+        
+    }
 }, 50);
 
 root.visible=true

@@ -1,6 +1,6 @@
 const colors=['#caa982','#aa8085','#856440','#4a473a','#b96f2c','#774024','#4e2823','#8b9a3b','#397a41','#2c403c','#629cc5','#67628a','#36445a','#707068','#33333a','#182029']
 function color(id=0){return colors[id]}
-
+class cam{constructor(x=0,y=0){this.x=0;this.y=0}}
 class v2{
     constructor(x,y){
         this.x=x;this.y=y
@@ -138,7 +138,7 @@ class btn extends object{
         
         ctx.fillRect(this.x+ax,this.y+ay,this.size.x,this.size.y)
         ctx.fillStyle=this.fcolor;
-        ctx.fillText(this.text,ax+this.x,ay+this.y+this.size.y);
+        ctx.fillText(this.text,Math.round(ax+this.x),Math.round(ay+this.y+this.size.y));
         super.update(ax,ay)
         
     }
