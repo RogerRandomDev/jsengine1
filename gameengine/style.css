@@ -13,9 +13,10 @@ input {
   user-select: none;
 }
 object {
-  width: 100%;
-  height: 100%;
+  width: calc(100vmin - calc(16 * calc(100vmin / 128)));
+  height: 100vmin;
   position: absolute;
+  left:calc(50vw - 50vmin);
 }
 #inputtop {
   position: absolute;
@@ -93,6 +94,8 @@ textarea {
   background-color: transparent;
   resize: none;
   color: transparent;
+  min-width: 96px;
+  min-height: 96px;
   caret-color: #aa8085;
   word-wrap: unset;
   flex-wrap: unset;
@@ -113,6 +116,7 @@ textarea::selection {
   overflow: scroll;
   word-wrap: unset;
   flex-wrap: unset;
+  user-select: none;
   overflow-wrap: nowrap;
   white-space: pre;
   outline: none;

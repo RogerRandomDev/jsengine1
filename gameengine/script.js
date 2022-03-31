@@ -30,10 +30,10 @@ function update_size(){
     document.getElementById("objects").style=screen.style
     document.getElementById("objects").style.marginLeft="50%"
     document.getElementById("objects").style.transform="scale("+max_size/128+","+max_size/128+") translate(-25%,56px)"
-    document.getElementById("objects").style.backgroundColor=color(5)
+    document.getElementById("objects").style.backgroundColor=color(14)
     if(current_tab!="code"){document.getElementById("objects").style.display="none"}
 }
-document.getElementById("objects").style.backgroundColor=color(5)
+document.getElementById("objects").style.backgroundColor=color(14)
 let mousepos=new v2(0,0)
 
 /*editor setup*/
@@ -55,7 +55,7 @@ tabcont.add(taba)
 
 let keysdown=[]
 
-var background=color(6)
+var background=color(15)
 
 
 
@@ -111,7 +111,7 @@ let timer = setInterval(function(){
     ctx.fillRect(0,0,128,128)
     if(editor){eroot.update(0,0)}
     if(!editor){
-        if(hasloop){loop()}
+        if(hasloop){try{loop()}catch(error){endgame();alert("Code has errored\nReason:\n"+error)}}
         root.update(0,0)}
 }, 50);
 
@@ -153,4 +153,3 @@ mousepos.x=-30
 mousepos.y=-30
 tab0.hovered=true
 tab0.press()
-taba.press()

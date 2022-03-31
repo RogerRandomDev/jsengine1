@@ -5,6 +5,7 @@
 <!-- Initialize highlight -->
 <script>hljs.highlightAll();</script>
 <!--the functions applied to the engine-->
+<script src="./nomath.js" type="text/javascript"></script>
 <script src="./saveorload.js" type="text/javascript"></script>
 <link rel="stylesheet" href="./style.css">
 <script src="functions.js" type="text/javascript"></script>
@@ -14,13 +15,13 @@
 <canvas id="screen" width="128" height="128"></canvas>
 <input type="file" id="filein" name="SaveGame">
 <div id="objects">
-    
+    <textarea id="scriptinput" spellcheck="false"></textarea>    
     <div class="code javascript" id=scriptbody spellcheck="false">//_ready() runs in beginning of game
         function _ready(){}</div>
-<textarea id="scriptinput" spellcheck="false"></textarea>
+
 </div>
 <canvas id="inputtop"></canvas>
-<object data="helppage.html" id="helper" style="pointer-events: scroll;"></object>
+<object data="helppage.html" id="helper"></object>
 <!--the base functions and systems-->
 <div id="insertion_point"></div>
 

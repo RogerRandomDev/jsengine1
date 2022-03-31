@@ -17,16 +17,18 @@
   --color15: #182029;
 }
 body {
+  user-select: none;
+  position:absolute;
   overflow-x: hidden;
-  overflow-y: hidden;
+  background-color: var(--color15);
   width: 100vmin;
-  height: 100vmin;
+  height: 100vmax;
   margin: 0 auto;
-
   z-index: 10000 !important;
 }
 * {
   font-family: body;
+  font-size: 1.125rem;
   color: var(--color0);
   user-select: none;
   box-shadow: none;
@@ -54,8 +56,6 @@ hr {
   padding-top: 0;
   padding-bottom: 0;
   margin: 0;
-  max-width: 87.5%;
-
   border-right-style: none;
 }
 section {
@@ -69,8 +69,6 @@ section {
   src: url('./font.ttf');
 }
 li {
-  overflow-wrap: unset;
-  overflow: visible;
   position: relative;
   text-align: start;
 }
@@ -85,4 +83,24 @@ d {
 }
 e {
   color: #aaffaa;
+}
+l{
+  font-size: 1.5rem;
+}
+
+body::-webkit-scrollbar{
+  background-color: transparent;
+}
+body::-webkit-scrollbar-thumb{
+  background-color: var(--color3);
+  max-width: 4px;
+  z-index: 0;
+}
+body::-webkit-scrollbar-track{
+  background-color: var(--color2);
+  z-index: 100;
+}
+
+body::-webkit-scrollbar-track-piece{
+  background-color: var(--color15);
 }

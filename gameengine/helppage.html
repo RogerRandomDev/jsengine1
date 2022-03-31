@@ -22,14 +22,18 @@
     </section>
     <section id="body">
         <div id="functions" class="colorlist">
-            Inbuilt Function List
+            <l><e>Inbuilt Function List</e></l>
             <ul>
+                <li>Most <e>Math</e> functions no longer require <e>Math</e> in front</li>
                 <li><e>add</e>(<c>node</c>)</li>
                 <li><e>endgame</e>()<br>closes back to <d>engine</d></li>
                 <li><e>loadtex</e>(<c>name</c>)<br>loads <c>texture</c> with name of given <d>string</d><br>
                 if no <d>name</d> is given, it gives a dictionary of all <c>textures</c></li>
-                <li><e></e>()</li>
-                <li><e></e>()</li>
+                <li><e>vector2</e>(<c>x</c>,<c>y</c>)<br>
+                stores <c>x</c> and <c>y</c></li>
+                <li><e>color</e>(<c>id</c>)<br>
+                returns the <e>color</e> at the given <c>id</c>
+                </li>
                 <li><e></e>()</li>
                 <li><e></e>()</li>
                 <li><c>Object</c>{</li>
@@ -40,27 +44,104 @@
                         Dictates position</li>
                         <li><c>children[]</c><br>
                         the children nodes added with <e>add</e>(<c>node</c>)</li>
-                        <li><c>visible:</c><d>T/F</d><br>
+                        <li><c>parent</c>:<e>object</e><br>
+                        the <c>parent</c> of the current <e>object</e></li>
+                        <li><c>visible</c>:<d>T/F</d><br>
                         decides whether it and its <c>children</c> will show and update</li>
+                        <li><c>active</c>:<d>T/F</d><br></li>
+                        <li><c>onclick</c>:<d>String</d><br>
+                        will run the given <d>string</d> when clicked,<br>
+                        effective when using <d>string</d> to <e>trigger</e> a <e>function</e>.</li>
+                        <li><c>onhover</c>:<d>String</d><br>
+                        works identically to <c>onclick</c>,<br>
+                        but <e>triggers</e> whenever <c>hovered</c> instead
+                        </li>
+                        <li><c>Size</c>:<e>vector2</e><br>
+                        determines the <c>Size</c> of the <e>object</e>.<br>
+                        rarely used
+                    </li>
                     </ul>
                     <li><c>Functions</c></li>
-                    <li><e>add</e>(<c>node</c>)</li>
+                    <li><e>add</e>(<c>node</c>)<br>
+                    <ul><li>adds the <c>node</c> as a child to <e>self</e></li></ul></li>
                     <li><e>moveWithCollision</e>(<c>dist(x,y)</c>)<br>
                         <ul><li>takes a <e>vector2</e> and must be in <c>int</c><br></li>
                             <li>will cap motion to the screen itself and only checks with <c>tilemap</c></li>
                     </ul>
                     </li>
-                    <li><e></e>(<c></c>)</li>
-                    <li><e></e>(<c></c>)</li>
-                    <li><e></e>(<c></c>)</li>
-                    <li><e></e>(<c></c>)</li>
-                    <li><e></e>(<c></c>)</li>
-                    <li><e></e>(<c></c>)</li>
-                    <li><e></e>(<c></c>)</li>
-                </ul>
+                    <li><e>checkhover</e>(<c></c>)<br><ul>checks if you are <c>hovered</c><br>done automatically</ul></li></ul>
+                    <!--now we do the next objects-->
+                    <!--this is the box-->
+                    <c>box <e>extends</e> <c>object</c></c>{
+                    <ul>
+                        <li><c>Variables</c><ul>
+                            <li><e>Color</e>:<e>Color Index</e></li>
+                            <li><e>Size</e>:<e>size</e><br>
+                            <e>size</e> determines <e>size</e> of the <c>box</c></li>
+                        </ul></li>
+                        <li><c>Functions</c><ul>
+                            <li></li>
+                        </ul>
+                        </li>
+                    }</ul>
+                <!--now the sprite-->
+                <c>sprite</c> <e>extends</e> <c>object</c>{
+                    <ul><c>Variables</c>
+                    <ul>
+                        <li><c>texture</c>:<e>loadtex()</e> <c>File</c></li>
+                    </ul>
+                    <li><c>Functions</c><ul>
+                        <li></li>
+                    </ul>
+                    </li>
+                    <li></li>    
+                    }</ul> 
+                <!--btn here-->
+                <c>btn</c> <e>extends</e> <c>box</c>{<ul>
+                    <c>Variables</c>
+                    <ul>
+                        <li><c>fcolor</c>:<e>Color index</e><br>
+                        <e>color</e> used by the font</li>
+                        <li><c>hcolor</c>:<e>Color index</e><br>
+                        <e>color</e> used when hovered</li>
+                    </ul>
+                    <c>Functions</c>
+                    <ul>
+                        <li><e>press</e>()<ul>
+                        <e>triggers</e> <c>onclick</c> event</ul></li>
+                    </ul>}</ul>
+                <!--tilemap here-->
+                <c>tilemap</c> <e>extends</e> <c>object</c>{<ul>
+                    <c>Variables</c>
+                    <ul>
+                        <li><c>tiles</c>:<e>Array</e><ul><e>Array</e> of the <c>tile</c> images</ul></li>
+                        <li><c>map</c>:<e>Array</e><ul>
+                            <e>16</e>x<e>16</e> <e>Array</e> of <c>tile</c> id's, <e>-1</e> is empty
+                        </ul></li>
+                    </ul>
+                    <c>Functions</c>
+                    <ul>
+                        <li><e>setTile</e>(<c>index</c>,<c>name</c>)<ul>
+                            sets <c>tile</c> at <c>index</c> to <e>loadtex</e> of <c>name</c> if <c>index</c> exists
+                        </ul></li>
+                        <li><e>addTile</e>(<c>name</c>)<ul>
+                            puts <c>tile</c> at end of <c>tiles <e>array</e></c> of the <c>image</c> <e>loadtex</e>(<c>name</c>)
+                        </ul></li>
+                        <li><e>setCell</e>(<c>x</c>,<c>y</c>,<c>id</c>)<ul>
+                            sets <c>map tile</c> at <c>position</c> clamped to <c>map <e>size</e></c> to selected <c>id</c>
+                        </ul></li>
+                        <li><e>updateMap</e>()<ul>
+                            rebuilds <c>map</c> image, best used if you update <c>map</c> outside <e>setCell</e>
+                        </ul></li>
+                        <li><e>checkcollision</e>(<c>x</c>,<c>y</c>)<ul>
+                            gets if there is something at the <c>cell</c> closest to <c>x</c> and <c>y</c>
+                        </ul></li>
+                    </ul>
+                }</ul>
+                }
             </ul>
-            <d>Functions used for engine</d><br>
-            <d>These also include the default javascript functions</d>
+            <l><d>Functions used for engine</d><br>
+            <d>These also include the default javascript functions</d></l>
             <ul>
                 <li><e>readAsText</e>()</li>
                 <li><e>loadfiletocontent</e>()</li>
@@ -79,11 +160,6 @@
                 <li><e>to_image</e>()</li>
                 <li><e>undoimage</e>()</li>
                 <li><e>saveimage</e>()</li>
-                <li><e></e>()</li>
-                <li><e></e>()</li>
-                <li><e></e>()</li>
-                <li><e></e>()</li>
-                <li><e></e>()</li>
             </ul>
         </div>
         <div id="Object" class="colorlist"></div>

@@ -97,3 +97,4 @@ function getInput(){
   out.y=isKeyPressed("s")-isKeyPressed("w")
   return out
 }
+

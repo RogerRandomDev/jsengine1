@@ -40,7 +40,7 @@ class Tab extends box{
         if(current_tab!=this.text){for(let child of this.children){child.visible=false}}else{for(let child of this.children){child.visible=true;}}
         if(current_tab=="help"){
             document.getElementById("helper").style.visiblility="visible";
-            document.getElementById("helper").style.userSelect="all";
+            document.getElementById("helper").style.userSelect="none";
             document.getElementById("helper").style.zIndex="1000";
             document.getElementById("helper").style.display="block";
         }else{
@@ -52,7 +52,7 @@ class Tab extends box{
         if(current_tab=="code"){
             document.getElementById("objects").style.visiblility="visible";
             document.getElementById("objects").style.userSelect="all";
-            document.getElementById("objects").style.zIndex="1000";
+            document.getElementById("objects").style.zIndex="10000";
             document.getElementById("objects").style.display="block";
         }
         if(current_tab!="code"){
@@ -155,9 +155,9 @@ class colorpicker extends box{
 
 let scriptscroll=setInterval(function(){
     let a=document.getElementById("scriptinput")
-    a.style.minHeight=a.scrollHeight
+    a.style.minHeight=Math.max(a.scrollHeight,96)+"px"
     a.style.minWidth=a.scrollWidth
-    document.getElementById("scriptbody").style.minHeight=a.scrollHeight
+    document.getElementById("scriptbody").style.minHeight=Math.max(a.scrollHeight,96)+"px"
     document.getElementById("scriptbody").style.minWidth=a.scrollWidth
 }, 50);
 

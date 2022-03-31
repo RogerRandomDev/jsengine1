@@ -134,13 +134,16 @@ class btn extends object{
     update(ax=0,ay=0){
         if(!this.visible){return}
         if(this.hovered&&!mjust){ctx.fillStyle=this.hcolor}else{ctx.fillStyle=this.color}
-        if(this.hovered&&mjust){eval(this.onclick);this.done=true}
+        if(this.hovered&&mjust){this.press()}
         
         ctx.fillRect(this.x+ax,this.y+ay,this.size.x,this.size.y)
         ctx.fillStyle=this.fcolor;
         ctx.fillText(this.text,ax+this.x,ay+this.y+this.size.y);
         super.update(ax,ay)
         
+    }
+    press(){
+        eval(this.onclick);this.done=true
     }
 }
 class tilemap extends object{
