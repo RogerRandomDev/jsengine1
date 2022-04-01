@@ -11,12 +11,13 @@ input {
   font-family: 'base';
   position: absolute;
   user-select: none;
+  visibility: hidden;
 }
 object {
   width: calc(100vmin - calc(16 * calc(100vmin / 128)));
   height: 100vmin;
   position: absolute;
-  left:calc(50vw - 50vmin);
+  left: calc(50vw - 50vmin);
 }
 #inputtop {
   position: absolute;

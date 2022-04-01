@@ -79,7 +79,7 @@ class object{
 
 
 class box extends object{
-    constructor(x,y,size=new v2(2,2),colorse=colors[0]){
+    constructor(x=0,y=0,size=new v2(8,8),colorse=colors[0]){
         super()
         this.x=x;
         this.y=y;
@@ -92,7 +92,7 @@ class box extends object{
         ctx.fillStyle=this.color;
         let nx=ax+this.x;
         let ny=ay+this.y;
-        ctx.fillRect(nx,ny,this.size.x,this.size.y)
+        ctx.fillRect(Math.round(nx),Math.round(ny),this.size.x,this.size.y)
         super.update(ax,ay)
     }
 }
@@ -109,9 +109,9 @@ class label extends object{
         
         if(!this.visible){return}
         ctx.fillStyle=this.color;
-        let nx=ax+this.x;let ny=ax+this.y;
+        let nx=round(ax+this.x);let ny=round(ax+this.y);
         super.update(ax,ay);
-        ctx.fillText(this.text,nx,ny)
+        ctx.fillText(this.text,Math.round(nx),Math.round(ny))
         
     }
 }
@@ -143,7 +143,9 @@ class btn extends object{
         
     }
     press(){
+        if(!mpressed){return}
         eval(this.onclick);this.done=true
+        mjust=false
     }
 }
 class tilemap extends object{
@@ -190,6 +192,8 @@ class tilemap extends object{
 class sprite extends object{
     constructor(x=0,y=0,texture=""){
         super()
+        this.flip_h=false
+        this.flip_v=false
         this.texture=loadtex(texture)
         this.x=x
         this.y=y
@@ -198,7 +202,35 @@ class sprite extends object{
     update(ax,ay){
         if(!this.visible){return}
         super.update(ax,ay)
-        ctx.drawImage(this.texture,ax+this.x,ay+this.y)
+        let fh=1-(this.flip_h*2)
+        let fv=1-(this.flip_v*2)
+        if(this.flip_v||this.flip_h){
+            ctx.scale(fh,fv)
+        }
+        ctx.drawImage(this.texture,Math.round(ax+this.x+(8*(fh==-1)))*fh,Math.round(ay+this.y+(8*(fv==-1)))*fv)
+        if(this.flip_v||this.flip_h){
+            ctx.scale(fh,fv)
+        }
 
     }
+}
+
+const interp={
+    "parent":null,
+    "interps":[],
+    addinterp(obj,val,end,duration){
+        let nint=[obj,val,obj[val],end,duration,0]
+        this.interps.push(nint)
+    },
+    update(){
+        for(let interp of this.interps){
+            interp[0][interp[1]]=interp[2]+(interp[3]-interp[2])*(interp[5]/interp[4])
+            interp[5]+=0.05;
+            if(interp[5]>=interp[4]){
+                interp[0][interp[1]]=interp[3]
+                this.interps.splice(this.interps.indexOf(interp),1)
+        }
+        
+    }
+}
 }

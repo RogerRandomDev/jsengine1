@@ -12,7 +12,7 @@
     <!-- Initialize highlight -->
     <script>hljs.highlightAll();</script>
     <link rel="stylesheet" href="./helpstyle.css">
-    <script src="./help.js" type="text/javascript"></script>
+    <script src="./enginepack/help.js" type="text/javascript"></script>
 </head>
 <body>
     <section class="toprow" id="top">
@@ -28,6 +28,10 @@
                 <li><e>camera</e> position determines everythings draw position<br>
                     <ul>has <c>x</c> and <c>y</c></ul>
                 </li>
+                <li><e>loop</e>()<ul>
+                    inner content of <c>{}</c>
+                    will run every frame (20fps)
+                </ul></li>
                 <li><e>add</e>(<c>node</c>)</li>
                 <li><e>endgame</e>()<br>closes back to <d>engine</d></li>
                 <li><e>loadtex</e>(<c>name</c>)<br>loads <c>texture</c> with name of given <d>string</d><br>
@@ -37,8 +41,30 @@
                 <li><e>color</e>(<c>id</c>)<br>
                 returns the <e>color</e> at the given <c>id</c>
                 </li>
+                <!--interp here-->
+                <e>interp</e>{<ul>
+                    <c>Variables</c>
+                    <ul>
+                        <c>parent</c>:<ul>the <e>parent</e> node, is the <e>root</e></ul>
+                        <c>interps</c>:<ul>
+                            the <c>interpolation</c> list
+                        </ul>
+                    </ul>
+                    <c>Functions</c>
+                    <ul>
+                        <li><e>addinterp</e>(<c>obj</c>,<c>val</c>,<c>end</c>,<c>duration</c>)<ul>
+                            adds the <e>interp</e> to the <c>interps</c> list
+                        </ul>
+
+                        </li>
+                        <e>update</e>()<ul>
+                            <c>updates</c> by 1/20th a second on call
+                        </ul>
+                    </ul>
+                </ul>}
                 <li><e></e>()</li>
                 <li><e></e>()</li>
+                <li><e>OBJECTS</e>:</li><ul>
                 <li><c>Object</c>{</li>
                 <ul>
                     <li><c>variables</c></li>
@@ -92,6 +118,8 @@
                     <ul><c>Variables</c>
                     <ul>
                         <li><c>texture</c>:<e>loadtex()</e> <c>File</c></li>
+                        <li><c>flip_h</c>:<d>T/F</d><ul><e>flips horizontal</e></li></ul>
+                        <li><c>flip_v</c>:<d>T/F</d><ul></c><e>flips vertical</e></li></ul></li>
                     </ul>
                     <li><c>Functions</c><ul>
                         <li></li>
@@ -141,7 +169,8 @@
                         </ul></li>
                     </ul>
                 }</ul>
-                }
+                
+                </ul>}
             </ul>
             <l><d>Functions used for engine</d><br>
             <d>These also include the default javascript functions</d></l>

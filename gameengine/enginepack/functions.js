@@ -75,6 +75,7 @@ function loadtex(id=""){
   return imagelist;
 }
 function endgame(){
+  ctx.setTransform(1, 0, 0, 1, 0, 0);
   editor=true
   mjust=false
   let obj = document.getElementById("insertion_point")
@@ -85,6 +86,7 @@ function endgame(){
     eval('delete window.'+to.replace(";",""))
     
   }
+  
   root.children=[]
   tab0.press()
   collisionobjects=[]
@@ -98,3 +100,6 @@ function getInput(){
   return out
 }
 
+function addInterp(obj,val,end,duration){
+  interp.addinterp(obj,val,end,duration);
+}

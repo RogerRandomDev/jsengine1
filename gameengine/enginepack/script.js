@@ -31,10 +31,15 @@ function update_size(){
     document.getElementById("objects").style=screen.style
     document.getElementById("objects").style.marginLeft="50%"
     document.getElementById("objects").style.transform="scale("+max_size/128+","+max_size/128+") translate(-25%,56px)"
-    document.getElementById("objects").style.backgroundColor=color(14)
-    if(current_tab!="code"){document.getElementById("objects").style.display="none"}
+    document.getElementById("objects").style.backgroundColor='#23232a'
+    if(current_tab!="code"){document.getElementById("objects").style.display="none"}else{
+            document.getElementById("objects").style.visiblility="visible";
+            document.getElementById("objects").style.userSelect="all";
+            document.getElementById("objects").style.zIndex="10000";
+            document.getElementById("objects").style.display="block";
+    }
 }
-document.getElementById("objects").style.backgroundColor=color(14)
+document.getElementById("objects").style.backgroundColor='#23232a'
 let mousepos=new v2(0,0)
 
 /*editor setup*/
@@ -57,7 +62,7 @@ tabcont.add(taba)
 let keysdown=[]
 
 var background=color(15)
-
+background = '#13131a'
 
 
 /*input events*/
@@ -98,6 +103,7 @@ document.addEventListener('mousedown',function(){
 inputhelp.addEventListener('mouseup',function(){mpressed=false})
 function checkinput(){
     let n=this;
+    mjust=false
     if(this==window){n=document.getElementById("scriptinput")}
     let returned=n.value.replaceAll("<","&lt").replaceAll(">","&gt")
     let sbod =document.getElementById('scriptbody')
@@ -107,11 +113,13 @@ checkinput()
 let editor=true
 /*the process function for every frame*/
 let timer = setInterval(function(){
+    
     ctx.clearRect(0,0,128,128)
     ctx.fillStyle=background
     ctx.fillRect(0,0,128,128)
     if(editor){eroot.update(0,0)}
     if(!editor){
+        interp.update()
         if(hasloop){try{loop()}catch(error){endgame();alert("Code has errored\nReason:\n"+error)}}
         let c=root.children[0]
         c.x=-camera.x
@@ -150,7 +158,8 @@ tab0.add(confirmload)
 savedraw.onclick="saveimage();undoimage();savedraw.done=true"
 newdraw.onclick="undoimage()";
 btne.onclick="loadcode()"
-confirmload.onclick="loadfile()"
+confirmload.onclick="document.getElementById('filein').click();loadfile()"
+
 tab0.add(btne)
 tab1.add(colorlist)
 tab1.add(newdraw)
