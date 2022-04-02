@@ -75,6 +75,8 @@ function loadtex(id=""){
   return imagelist;
 }
 function endgame(){
+  camera.x=0
+  camera.y=0
   ctx.setTransform(1, 0, 0, 1, 0, 0);
   editor=true
   mjust=false
@@ -102,4 +104,44 @@ function getInput(){
 
 function addInterp(obj,val,end,duration){
   interp.addinterp(obj,val,end,duration);
+}
+function move_and_collide(obj,x,y){
+  let move=root.checkcollide(x+obj.x,y+obj.y,obj)
+  if(!move[0]){
+    obj.x+=x;obj.y+=y;
+    snap_pos(obj,[move[1],move[1]],new v2(x,y))
+  }
+}
+function move_and_slide(obj,x,y){
+  
+  let movement=[null,null]
+  let basedir=new v2(Math.sign(x),Math.sign(y))
+  let val =root.checkcollide(x+obj.x,obj.y,obj)
+  x*=!val[0]
+  
+  movement[0]=val[1]
+  val=root.checkcollide(obj.x,y+obj.y,obj)
+  y*=!val[0]
+  movement[1]=val[1]
+  obj.x+=x;obj.y+=y;
+  snap_pos(obj,movement,basedir)
+}
+
+function snap_pos(obj,movement,basedir){
+  if(movement[0]!=null&&basedir.x!=0&&movement[0].snap){
+    if(basedir.x==1){
+      obj.x=movement[0].x-obj.size.x
+      
+    }else{
+      obj.x=movement[0].x+movement[0].size.x
+    }
+  }
+  if(movement[1]!=null&&basedir.y!=0&&movement[1].snap){
+    if(basedir.y==1){
+      obj.y=movement[1].y-obj.size.y
+    }else{
+      obj.y=movement[1].y+movement[1].size.y
+      
+    }
+  }
 }

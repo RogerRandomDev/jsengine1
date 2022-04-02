@@ -41,6 +41,13 @@
                 <li><e>color</e>(<c>id</c>)<br>
                 returns the <e>color</e> at the given <c>id</c>
                 </li>
+                <!--lots of important stuff going here-->
+                <li><e>move_and_collide</e>(<c>obj</c>,<c>x</c>,<c>y</c>)<ul>
+                    moves while colliding
+                </ul></li>
+                <li><e>move_and_slide</e>(<c>obj</c>,<c>x</c>,<c>y</c>)<ul>
+                    does <e>move_and_collide</e> with <c>sliding</c> on the axis
+                </li>
                 <!--interp here-->
                 <e>interp</e>{<ul>
                     <c>Variables</c>
@@ -53,7 +60,8 @@
                     <c>Functions</c>
                     <ul>
                         <li><e>addinterp</e>(<c>obj</c>,<c>val</c>,<c>end</c>,<c>duration</c>)<ul>
-                            adds the <e>interp</e> to the <c>interps</c> list
+                            adds the <e>interp</e> to the <c>interps</c> list<br>
+                            can be <e>called</e> without <c>interp</c> in front
                         </ul>
 
                         </li>
@@ -69,6 +77,10 @@
                 <ul>
                     <li><c>variables</c></li>
                     <ul>
+                        <li><c>collide</c>:<d>T/F</d><ul>
+                            determines if object will have collision
+                        </ul>
+                        </li>
                         <li><c>x</c>,<c>y</c><br>
                         Dictates position</li>
                         <li><c>children[]</c><br>
@@ -140,37 +152,8 @@
                     <ul>
                         <li><e>press</e>()<ul>
                         <e>triggers</e> <c>onclick</c> event</ul></li>
-                    </ul>}</ul>
+                    </ul>}</ul>}
                 <!--tilemap here-->
-                <c>tilemap</c> <e>extends</e> <c>object</c>{<ul>
-                    <c>Variables</c>
-                    <ul>
-                        <li><c>tiles</c>:<e>Array</e><ul><e>Array</e> of the <c>tile</c> images</ul></li>
-                        <li><c>map</c>:<e>Array</e><ul>
-                            <e>16</e>x<e>16</e> <e>Array</e> of <c>tile</c> id's, <e>-1</e> is empty
-                        </ul></li>
-                    </ul>
-                    <c>Functions</c>
-                    <ul>
-                        <li><e>setTile</e>(<c>index</c>,<c>name</c>)<ul>
-                            sets <c>tile</c> at <c>index</c> to <e>loadtex</e> of <c>name</c> if <c>index</c> exists
-                        </ul></li>
-                        <li><e>addTile</e>(<c>name</c>)<ul>
-                            puts <c>tile</c> at end of <c>tiles <e>array</e></c> of the <c>image</c> <e>loadtex</e>(<c>name</c>)
-                        </ul></li>
-                        <li><e>setCell</e>(<c>x</c>,<c>y</c>,<c>id</c>)<ul>
-                            sets <c>map tile</c> at <c>position</c> clamped to <c>map <e>size</e></c> to selected <c>id</c>
-                        </ul></li>
-                        <li><e>updateMap</e>()<ul>
-                            rebuilds <c>map</c> image, best used if you update <c>map</c> outside <e>setCell</e>
-                        </ul></li>
-                        <li><e>checkcollision</e>(<c>x</c>,<c>y</c>)<ul>
-                            gets if there is something at the <c>cell</c> closest to <c>x</c> and <c>y</c>
-                        </ul></li>
-                    </ul>
-                }</ul>
-                
-                </ul>}
             </ul>
             <l><d>Functions used for engine</d><br>
             <d>These also include the default javascript functions</d></l>

@@ -1,10 +1,16 @@
 
 let screen=document.getElementById("screen")
 let ctx=screen.getContext("2d")
+ctx.webkitImageSmoothingEnabled = false;
+ctx.mozImageSmoothingEnabled = false;
+ctx.imageSmoothingEnabled = false;
 ctx.shadowBlur=0;
 ctx.shadowOffsetX=0
 ctx.shadowOffsetY=0
+
+ctx.miterLimit=1
 ctx.width=128
+ctx.imageSmoothingQuality='low'
 ctx.height=128
 ctx.font="1rem base"
 let hasloop=false;
@@ -16,7 +22,6 @@ let collisionobjects=[]
 ctx.filter="none";
 let mpressed=false;
 let mjust=false;
-ctx.smoothingEnabled=false
 ctx.imageSmoothingEnabled=false
 let current_hover=null;
 let currentactive=null;
@@ -145,6 +150,7 @@ for(let i=0;i<colors.length;i++){
     colorlist.add(nitem)
     
 }
+document.getElementById('filein').addEventListener("change",loadfile)
 let nitem=new colorpicker(21%11*6,Math.round(16/11-0.5)*6,new v2(4,4),-1)
 colorlist.add(nitem)
 let btne = new btn("run",-112,0,2,3,4)
@@ -158,7 +164,7 @@ tab0.add(confirmload)
 savedraw.onclick="saveimage();undoimage();savedraw.done=true"
 newdraw.onclick="undoimage()";
 btne.onclick="loadcode()"
-confirmload.onclick="document.getElementById('filein').click();loadfile()"
+confirmload.onclick="document.getElementById('filein').click();mjust=false"
 
 tab0.add(btne)
 tab1.add(colorlist)

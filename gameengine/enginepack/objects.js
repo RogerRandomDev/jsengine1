@@ -28,6 +28,8 @@ class texture{
 }
 class object{
     constructor(){
+        this.snap=true
+        this.collide=true
         this.children=[]
         this.parent=null
         this.x=0;this.y=0;
@@ -59,7 +61,6 @@ class object{
         this.x=x*8;this.y=y*8;
         return true
     }
-
     update(ax=0,ay=0){
         if(!this.visible){return}
         let x=ax+this.x;let y=ay+this.y
@@ -74,7 +75,13 @@ class object{
         if(this.hovered){current_hover=this}
         
     }
+    checkcollide(x,y,obj){
+        if(!this.collide){return [false,null]}
+        if(obj!=this&&((this.x<x+obj.size.x&&this.x+this.size.x>x)&&(this.y<y+obj.size.y&&this.y+this.size.y>y))){return [true,this]}
+        for(let child of this.children){if(child.checkcollide(x,y,obj)[0]){return [true,child]}}
+        return [false,null]
 
+    }
 }
 
 
@@ -106,7 +113,7 @@ class label extends object{
         this.color=colors
     }
     update(ax=0,ay=0){
-        
+        this.collide=false
         if(!this.visible){return}
         ctx.fillStyle=this.color;
         let nx=round(ax+this.x);let ny=round(ax+this.y);
@@ -119,6 +126,7 @@ class label extends object{
 class btn extends object{
     constructor(text="",x=0,y=0,fcolrs=0,colres=1,hovercol=3){
         super()
+        this.collide=false
         fcolrs=colors[fcolrs]
         colres=colors[colres]
         let s=ctx.measureText(text);
@@ -148,46 +156,6 @@ class btn extends object{
         mjust=false
     }
 }
-class tilemap extends object{
-    constructor(x=0,y=0){
-        super()
-        this.x=x;
-        this.y=y;
-        this.map=[[-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1],[-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1],[-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1],[-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1],[-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1],[-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1],[-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1],[-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1],[-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1],[-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1],[-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1],[-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1],[-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1],[-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1],[-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1],[-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1]]
-        this.tiles=[]
-        this.fullmap=document.createElement("canvas")
-        this.fullmap.width=128;this.fullmap.height=128;
-        collisionobjects.push(this)
-    }
-    update(ax,ay){
-        super.update()
-        ctx.drawImage(this.fullmap,this.x+ax,this.y+ay)
-    }
-    setTile(idx,name){
-        if(this.tiles.length-1<=idx){
-            this.tiles[idx]=loadtex()[name]
-        }
-        
-    }
-    setCell(x=0,y=0,id=-1){
-        this.map[y][x]=id
-        this.updateMap()
-    }
-    updateMap(){
-        let nctx=this.fullmap.getContext("2d")
-        nctx.fillStyle="#00000000"
-        for(let x=0;x<16;x++){for(let y=0;y<16;y++){
-            let idx=this.map[y][x]
-            if(idx==-1){nctx.fillRect(x*8,y*8,8,8);continue}
-            nctx.drawImage(this.tiles[idx],x*8,y*8,8,8)
-        }}
-    }
-    addTile(name){this.tiles.push(loadtex()[name])}
-    checkcollision(x,y){
-        x-=Math.round(this.x/8);Math.round(y-=this.y/8);
-        return this.map[y][x]!=-1
-    }
-}
 
 class sprite extends object{
     constructor(x=0,y=0,texture=""){
@@ -214,7 +182,31 @@ class sprite extends object{
 
     }
 }
+class line extends object{
+    constructor(x=0,y=0,start=new v2(0,0),end=new v2(0,0),width=1,col=colors[15]){
+        super()
+        this.x=x;this.y=y;
+        this.start=start;this.end=end;
+        this.width=width;
+        this.color=col;
+    }
+    update(ax=0,ay=0){
+        if(!this.visible){return}
+        super.update(ax,ay)
+        ctx.lineWidth=this.width;
+        ctx.strokeStyle=this.color+"ff"
+        ctx.beginPath()
+        ctx.moveTo(this.start.x+this.x,this.start.y+this.y)
+        ctx.lineTo(this.end.x+this.x,this.end.y+this.y)
+        ctx.stroke()
+    }
+}
 
+
+
+
+
+//interpolator
 const interp={
     "parent":null,
     "interps":[],
